@@ -22,13 +22,19 @@ app.get('/health', (req, res) => {
 });
 
 // 3) Task 라우트 마운트
-const taskRouter = require('./src/routes/tasks'); // ← 경로 정확!
+const taskRouter = require('./src/routes/tasks');
 app.use('/api/tasks', taskRouter);
 
-// (진단용)
-app.get('/api/tasks/ping', (req, res) => {
-  res.json({ ok: true, route: '/api/tasks/ping' });
-});
+// 4) Auth/User 라우트 추가
+const authRoutes = require('./src/routes/authRoutes');
+const userRoutes = require('./src/routes/userRoutes');
+const requestRoutes = require('./src/routes/requestRoutes');
+const conditionRoutes = require('./src/routes/conditionRoutes');
+
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/requests', requestRoutes);
+app.use('/api/conditions', conditionRoutes);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
